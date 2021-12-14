@@ -152,13 +152,13 @@ def config_cmake(env: Dict[Any, Any], replace: bool = False, save_temps: bool = 
            f"-DCMAKE_CXX_COMPILER={env['CXX']} {build_link}"
 
 
-class CGCRepair(BenchmarkHandler):
+class CGC(BenchmarkHandler):
     """
         Handler for interacting locally with the CGCRepair benchmark
     """
 
     class Meta:
-        label = 'cgcrepair'
+        label = 'cgc'
 
     def set(self, project: Project):
         self.env["CGC_INCLUDE_DIR"] = project.packages['include']

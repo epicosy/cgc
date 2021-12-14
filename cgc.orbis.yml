@@ -1,4 +1,4 @@
-cgcrepair:
+cgc:
   corpus: "/usr/local/src/cgc"
   testing:
     timeout: 60
