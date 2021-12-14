@@ -1,0 +1,616 @@
+AIS-Lite:
+  pov1: "CWE-122 Heap-based Buffer Overflow"
+    generic: ["Heap buffer overflow", "Null pointer dereference", "Improper array bounds checking", "Access memory beyond buffer"]
+    realtion: "many-to-one"
+    trigger: ["CWE-20 Improper Input Validation", "CWE-129 Improper Validation of Array Index", "CWE-120 Buffer Copy without Checking Size of Input",
+              "CWE-788 Access of Memory Location After End of Buffer"]
+    type: 1
+
+ASL6parse:
+  pov1-3: "CWE-125 Out-of-bounds Read"
+    generic: ["Out-of-bounds Read"]
+    relation: "one-to-many"
+    type: 1
+
+Audio_Visualizer:
+  pov1: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap buffer overflow"]
+    relation: "one-to-one"
+    type: 1
+
+basic_emulator:
+  pov1-3: "CWE-170: Improper Null Termination"
+    generic: ["Buffer overflow"]
+    relation: "one-to-many"
+    type: 1
+
+basic_messaging:
+  pov1: "CWE-120 Buffer copy without checking size of input"
+    generic: ["Integer overflow", "Buffer overflow"]
+    trigger: ["CWE-190 Integer overflow or wraparound", "CWE-131 Incorrect calculation of buffer size"]
+    relation: "many-to-one"
+    type: 1
+
+BitBlaster:
+  pov1: "CWE-824: Access of Uninitialized Pointer"
+    generic: ["Null pointer dereference"]
+    relation: "many-to-one"
+    trigger: ["CWE-476: Null Pointer Derefernece"]
+    type: 1
+
+CROMU_00031:
+  program: "Board_Game"
+  pov1:
+    cwe: 787
+      decription: "Out-of-bounds write"
+      generic: ["Out-of-bounds write resulting in improper input validation"]
+    type: 1
+
+NRFIN_00036:
+  program: "BudgIT"
+  pov1: "CWE-469: Use of Pointer Subtraction to Determine Size"
+    generic: ["Out-of-bounds Read", "Incorrect Calculation of Buffer Size",
+               "Use of Pointer Subtraction to Determine Size"]
+    related: ["CWE-131: Incorrect Calculation of Buffer Size", "CWE-125: Out-of-bounds Read"]
+    type: 1
+  pov2: "CWE-193: Off-by-one Error"
+    generic: [ "Heap-based Buffer Overflow", "Off-by-one Error", "Out-of-bounds Write" ]
+    related: [ "CWE-787: Out-of-bounds Write", "CWE-122: Heap-based Buffer Overflow" ]
+    type: 1
+
+Casino_Games:
+  pov1-4: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Stack Buffer Overflow"]
+    relation: "many-to-many"
+    type: 1
+  
+CGC_File_System:
+  pov1: "CWE-125 Out-of-bounds Read"
+    generic: ["Insufficent bounds checking of an array."]
+    relation: "one-to-one"
+    type: 1
+
+CGC_Hangman_Game:
+  pov1-2: "CWE-134: Use of Externally-Controlled Format String"
+    generic: ["Format string vulnerability"]
+    relation: "one-to-many"
+    type: 2
+  pov3: "CWE-121: Stack based buffer overflow"
+    generic: ["Stack based buffer overflow"]
+    relation: "one-to-one"
+    type: 1
+
+CGC_Symbol_Viewer_CSV:
+  pov1-4: "CWE-190: Integer Overflow or Wraparound"
+    trigger: ["CWE-839: Numeric Range Comparison Without Minimum Check"]
+    generic: ["Insufficient range check", "Integer Overflow"]
+    type: "one-to-many"
+    type: 1
+
+CGC_Video_Format_Parser_and_Viewer:
+  pov1: "CWE-120 Buffer copy without checking size of input"
+    generic: ["Heap based buffer overflow due to invalid verification of an input size"]
+    relation: "one-to-one"
+    type: 1
+
+chess_mimic:
+  pov1: "CWE-787 Out of Bounds Write"
+    generic: ["Out of bounds write resulting in function pointer overwrite"]
+    relation: "one-to-one"
+    type: 1
+
+cotton_swab_arithmetic:
+  pov1-2: "CWE-367: Time-of-Chceck Time-of-Use (TOCTOU)"
+    generic: ["Out of bounds write", "Improper Input Validation", "Improper Validation of Array Index", "Null pointer dereference", "Out of bounds read"]
+    trigger: ["CWE-20: Improper Input Validation", "CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer",
+              "CWE-125: Out-of-Bounds Read", "CWE-476: NULL Pointer Dereference", "CWE-787: Out-of-Bounds Write"]
+    relation: "many-to-many"
+    type: 1
+
+Diary_Parser:
+  pov1: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Buffer overflow on the stack"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-125: Out-of-bounds Read"
+    generic: ["Out of bounds buffer read on the stack"] 
+    relation: "one-to-one"
+    type: 1
+  pov3: "CWE-125: Out-of-bounds Read"
+    generic: ["Out of bounds buffer read on the stack"] 
+    relation: "one-to-one"
+    type: 1
+  pov4: "CWE-476: Null pointer dereference"
+    generic: ["Null pointer dereference"]
+    relation: "one-to-one"
+    type: 1
+
+Diophantine_Password_Wallet:
+  pov1-5: "CWE-824: Access of Uninitialized Pointer"
+    generic: ["Null pointer dereference"]
+    relation: "one-to-many"
+    type: 1
+    trigger: ["CWE-824: Access of Uninitialized Pointer", "CWE-476: Null Pointer Derefernece"]
+
+Divelogger2:
+  pov1: "CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer"
+    generic: ["Out of bounds write"]
+    relation: "one-to-one"
+    type: 1
+
+Dive_Logger:
+  pov1: "CWE-787: Out of bounds write"
+    generic: ["Improper restriction of operations within the bounds of a memory buffer"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-839: Numeric Range Comparison Without Minimum Check"
+    generic: ["Improper restriction of operations within the bounds of a memory buffer"]
+    relation: "one-to-one"
+    type: 1
+
+Email_System_2:
+  pov1: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Buffer overflow on the stack"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Buffer overflow on the stack"]
+    relation: "one-to-one"
+    type: 1
+
+expression_database:
+  pov1: ['CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer']
+    relation: "one-to-one"
+    generic: ['Out of bounds write']
+    type: 1
+
+FablesReport:
+  type: "many-to-many"
+  vulns: 5
+  pov1: ['CWE-190 Integer Overflow or Wraparound']
+    generic: ["Integer Overflow or Wraparound"]
+    type: 1
+  pov2: ['CWE-190 Integer Overflow or Wraparound']
+    generic: ["Integer Overflow or Wraparound", "Write-what-where Condition"]
+    crash: "CWE-123 Write-what-where Condition"
+    type: 1
+  pov3: ["CWE-190 Integer Overflow or Wraparound", "Access of Memory Location After End of Buffer"]
+    generic: ["Integer Overflow or Wraparound"]
+    crash: "CWE-788 Access of Memory Location After End of Buffer"
+    type: 1
+  pov4: ['CWE-763 Release of Invalid Pointer or Reference']
+    generic: "Release of Invalid Pointer or Reference"
+    type: 1
+  pov5: ["CWE-190 Integer Overflow or Wraparound"]
+    generic: ["Heap-based Buffer Overflow", "Integer Overflow or Wraparound"]
+    crash: "CWE-122 Heap-based Buffer Overflow"
+    type: 1
+
+FUN:
+  generic: ['Buffer overflow']
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-788: Access of Memory Location After End of Buffer']
+    type: 1
+
+FaceMag:
+  generic: ['Stack buffer overflow']
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-121 Stack based buffer overflow']
+    type: 1
+
+FileSys:
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-416: Use After Free']
+    generic: ['Use After Free']
+    type: 1
+
+Filesystem_Command_Shell:
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-193 Off By One']
+    generic: ['Off By One']
+    type: 1
+
+FSK_BBS:
+  type: "one-to-many"
+  vulns: 1
+  pov1-3: ['CWE-121: Stack-based Buffer Overflow']
+    generic: ['Stack-based Buffer Overflow']
+    type: 1
+
+FSK_Messaging_Service:
+  type: "many-to-one"
+  vulns: 1
+  pov1: ['CWE-122: Heap-based Buffer Overflow']
+    generic: ['Improper bounds check on a memory buffer', 
+              'Function Pointer overwrite', 'Heap Overwrite']
+    trigger: "CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+    type: 1
+
+Gridder:
+  pov1: ['CWE-121 Stack based Buffer Overflow']
+    generic: ['Buffer overflow']
+    trigger: ["CWE-681: Incorrect Conversion between Numeric Types"]
+    relation: "many-to-one"
+    type: 1
+
+Griswold:
+  X
+  type: "many-to-many"
+  vulns: 2 
+  povs1-4: [""] 
+
+Grit:
+  type: "one-to-one"
+  vulns: 1
+  povs1: "CWE-126: Buffer Over-read"
+    generic: "Buffer Over-read"
+    type: 1
+
+HackMan:
+  type: "one-to-one"
+  vulns: 1
+  povs1: "Use of Uninitialized Variable (CWE-457)"
+    generic: ["Unitialized stack variable usage", "Function pointer overwrite"]
+    type: 1
+
+hawaii_sets:
+  isolated: true
+  type: "many-to-many"
+  vulns: 2
+  pov1: "CWE-120 Buffer copy without checking size of input"
+    generic: "Stack-based buffer overflow"
+    type: 1  
+  pov2: "CWE-400 Uncontrolled Resource Consumption"
+    generic: "Stack overflow due to infinite recursion"
+    type: 1
+
+HIGHCOO:
+  X
+  type: "many-to-one"
+  vulns: 1
+  pov1: ""
+
+humaninterface:
+  type: "one-to-many"
+  vulns: 1
+  pov1-3: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap-based Buffer Overflow"]
+    type: 1
+
+Kaprica_Go:
+  generic: ['Arbitrary format string']
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-134: Uncontrolled Format Sting']
+    type: 1
+
+LMS:
+  X
+  isolated: false
+  type: "many-to-many"
+  vulns: 3
+  pov1-2: "CWE-122: Heap-based buffer overflow"
+  pov3: "CWE-193: Off-by-one error"
+
+
+Loud_Square_Instant_Messaging_Protocol_LSIMP:
+  generic: ['Type confusion error']
+  type: "one-to-one"
+  vulns: 1
+  pov1: ["CWE-843: Access of Resource Using Incompatible Type 'Type Confusion'"]
+    type: 1
+
+Mathematical_Solver:
+  isolated: true
+  type: "many-to-many"
+  vulns: 3
+  pov1-3: ["CWE-121 Stack-based Buffer Overflow"]
+    generic: "Stack-based overflow from CRS input. The CRS is able to directly enter a buffer that is stored in a fixed buffer on the stack."
+
+Message_Service:
+  X
+  vulns: 1
+  pov1: "CWE-131: Incorrect Calculation of Buffer Size"
+    trigger: "CWE-798: Use of Hard-coded Credentials"
+    generic: "Hard-coded admin credentials allow access to a function which is vulnerable to a buffer overflow"
+    relation: "many-to-one"
+
+middleware_handshake:
+  pov1-2: ["CWE-134: Uncontrolled Format String"]
+    generic: ["Arbitrary format string"]
+    relation: "one-to-many"
+
+Movie_Rental_Service:
+  pov1: "CWE-416: Use-After-Free"
+    trigger: "Stack-based Buffer Overflow (CWE-121)"
+    generic: ["Stack Buffer Overflow", "Use-After-Free"]
+    relation: "many-to-one"
+
+Movie_Rental_Service_Redux:
+  generic: ['Format String']
+  type: "one-to-one"
+  vulns: 1
+  pov1: ['CWE-134: Uncontrolled Format String']
+    type: 1
+
+Packet_Analyzer:
+  pov1: "CWE-134 - Uncontrolled Format String"
+    generic: ["Uncontrolled format string that results in a write what where condition"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-125 - Out of Bounds Read"
+    generic: ["Out of bounds read past the end of a heap buffer"]
+    relation: "one-to-one"
+    type: 1
+
+PCM_Message_decoder:
+  pov1: "CWE-120 - Buffer Copy without Checking Size of Input"
+    generic: ['Unchecked user input leads to overrun of fixed size buffer allowing control of EIP.']
+    relation: "one-to-one"
+    type: 1
+
+Particle_Simulator:
+  pov1: "CWE-787: Out-of-bounds Write"
+    generic: ['Buffer Overflow']
+    relation: "one-to-one"
+    type: 1
+
+QuadtreeConways:
+  pov1: "CWE-690: Unchecked Return Value"
+    generic: ['Null pointer dereference']
+    relation: "one-to-one"
+    type: 1
+
+RAM_based_filesystem:
+  pov1: "CWE-787: Out-of-bounds Write"
+    generic: ["Incorrect array bounds check leading to buffer overflow and arbitrary writes"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-476: NULL Pointer Dereference"
+    generic: ["Null pointer dereference"]
+    relation: "one-to-one"
+    type: 1
+
+root64_and_parcour:
+  pov1-2: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Stack-based Buffer Overflow"]
+    relation: "one-to-many"
+    type: 1
+
+router_simulator:
+  pov1-2: "CWE-129: Improper Validation of Array Index"
+    generic: ["Out-of-bounds array access"]
+    relation: "one-to-many"
+    type: 1
+
+Sad_Face_Template_Engine_SFTE:
+  pov1: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap-based Buffer Overflow"]
+    relation: "one-to-one"
+    type: 1 
+  pov2: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap-based Buffer Overflow"]
+    relation: "one-to-one"
+    type: 1 
+
+Sample_Shipgame:
+  pov1-2: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Stack-based Buffer Overflow"]
+    relation: "one-to-many"
+    type: 1
+
+Scrum_Database:
+  pov1: "CWE-122 Heap-based Buffer Overflow"
+    generic: ['Heap buffer overflow']
+    relation: "one-to-one"
+    type: 1
+
+SFTSCBSISS:
+  type: "one-to-one"
+  pov1: "CWE-120: Buffer Copy without Checking Size of Input"
+    generic: ['Buffer overflow']
+    relation: "one-to-one"
+    type: 1
+
+ShoutCTF:
+  pov1: "CWE-121: Stack-based Buffer Overflow"
+    generic: "Stack-based Buffer Overflow"
+    relation: "one-to-one"
+    type: 1
+
+simplenote:
+  pov1: "CWE-674: Uncontrolled Recursion"
+    generic: ["Recursion", "Excessive nested function calls"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap-based Buffer Overflow"]
+    relation: "one-to-one"
+    type: 1
+
+Simple_Stack_Machine:
+    pov1-3: "CWE-122: Heap-based Buffer Overflow"
+    generic: ["Heap-based Buffer Overflow"]
+    relation: "one-to-many"
+    type: 1
+
+Single-Sign-On:
+  pov1: "CWE-122: Heap-based Buffer Overflow"
+    trigger: "CWE-788: Access of Memory Location After End of Buffer"
+    trigger: "CWE-787: Out-of-bounds Write"
+    trigger: "CWE-457: Use of Uninitialized Variable"
+    generic: ["Heap-based Buffer Overflow", "Use of Uninitialized Variable", 
+              "Out-of-bounds Write", "Access of Memory Location After End of Buffer"]
+    relation: "many-to-one"
+    type: 1
+
+SLUR_reference_implementation:
+  pov1: "CWE-476: Null Pointer Dereference"
+    generic: "Null Pointer Dereference"
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-843: Access of Resource Using Incompatible Type ('Type Confusion')"
+    generic: "Type Confusion"
+    relation: "one-to-one"
+    type: 1 
+
+Snail_Mail:
+  pov1: "CWE-201: Information Exposure Through Sent Data"
+    generic: ["Information Leakage"]
+    relation: "one-to-one"
+    type: 2
+
+SOLFEDGE:
+  pov1-2: "CWE-193: Off-by-one Error"
+    trigger: "CWE-20: Improper Input Validation"
+    trigger: "CWE-129: Improper Validation of Array Index"
+    generic: ["Off-by-one Error", "Improper Input Validation", "Improper Validation of Array Index"]
+    relation: "many-to-many"
+    type: 1
+
+Space_Attackers:
+  pov1: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Stack-based buffer overflow"]
+    relation: "one-to-one"
+    type: 1
+
+SPIFFS:
+  pov1: "CWE-785: Use of Path Manipulation Function without Maximum-sized Buffer"
+    generic: ["Buffer Overflow"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-416: Use After Free"
+    generic: ["Use After Free"]
+    relation: "one-to-one"
+    type: 1
+
+Square_Rabbit:
+  pov1: "CWE-190: Integer Overflow or Wraparound"
+    generic: ["Integer Overflow or Wraparound"]
+    relation: "one-to-one"
+    type: 1
+
+Stock_Exchange_Simulator:
+  pov1: "CWE-822: (Untrusted Pointer Deref)"
+    generic: ["Untrusted pointer dereference"]
+    trigger: "CWE-388: (Error Handling)"
+    relation: "many-to-one"
+    type: 1
+
+stream_vm:
+  pov1-2: "CWE-127: Buffer Under-read"
+    generic: ["Buffer Under-read"]
+    relation: "one-to-many"
+    type: 1
+
+Street_map_service:
+  pov1: "CWE-467: Use of sizeof() on a Pointer Type"
+    generic: ['Heap overflow']
+    relation: "one-to-one"
+    type: 1
+
+TAINTEDLOVE:
+  pov1-4: "CWE-787: Out-of-Bounds Write"
+    generic: ["Buffer overflow", "Out-of-bounds", "Null pointer dereference"]
+    trigger: "CWE-120: Buffer Overflow"
+    trigger: "CWE-121: Stack-Based Buffer Overflow"
+    trigger: "CWE-122: Heap-Based Buffer Overflow"
+    trigger: "CWE-125: Out-of-Bounds Read"
+    trigger: "CWE-476: NULL Pointer Dereference"
+    relation: "many-to-many"
+    type: 1
+
+TextSearch:
+  pov1: "CWE-674: Uncontrolled Recursion"
+    generic: ["Resource Exhaustion"]
+    relation: "one-to-one"
+    type: 1
+  pov2: "CWE-457: Use of Uninitialized Variable"
+    trigger: "CWE-193: Off-by-one Error"
+    generic: ["Buffer overflow"]
+    relation: "many-to-one"
+    type: 1
+
+TFTTP:
+  pov1: "CWE-125: Out-of-bounds read"
+    generic: ["Uninitilized memory use", "Out of bounds access"]
+    crash: "CWE-457: Use of uninitialized variable"
+    relation: "many-to-one"
+    type: 1
+
+The_Longest_Road:
+  pov1: "CWE-121 Stack-based Buffer Overflow"
+    generic: ["Stack-based overflow from CRS input"]
+    relation: "one-to-one"
+    type: 1
+
+Tick-A-Tack:
+  pov1-2: "CWE-476: NULL Pointer Dereference"
+    generic: ["Integer Overflow", "NULL Pointer Dereference"]
+    trigger: "CWE-120: Integer Overflow"
+    relation: "many-to-many"
+    type: 1
+
+ValveChecks:
+  pov1: 
+  pov2: "CWE-195: Signed to Unsigned Conversion error"
+    generic: "Buffer Overflow"
+    relation: "one-to-one"
+    type: 1
+  pov3: 
+  pov4:
+  pov5:
+  pov6: "CWE-191: Integer Underflow"
+    generic: "Buffer Overflow"
+    relation: "one-to-one"
+    type: 1
+
+WordCompletion:
+  pov1: "CWE-125: Out of Bounds Read"
+    generic: ["Out of Bounds Read"]
+    relation: "one-to-one"
+    type: 1
+
+XStore:
+  pov1: "CWE-121: Stack-based Buffer Overflow"
+    generic: ["Stack-based Buffer Overflow"]
+    relation: "one-to-one"
+    type: 1
+
+chess_mimic:
+  generic: ['Out of bounds write resulting in function pointer overwrite']
+  type: "one-to-one"
+  vulns: 1
+  pov1: 'CWE-787 Out of Bounds Write'
+    type: 1
+
+netstorage:
+  pov1: ['CWE-787: Out-of-bounds Write']
+    generic: ['Buffer Overflow']
+    relation: "one-to-one"
+    type: 1
+
+online_job_application2:
+  pov1: 'CWE-122: Heap-based Buffer Overflow'
+    trigger: "CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+    relation: "many-to-one"
+    generic: ['Buffer Overflow']
+    type: 1
+
+stream_vm2:
+  pov1: 'CWE-787: Out-of-bounds Write'
+    generic: ['Buffer Overflow']
+    trigger: "CWE-129: Improper Validation of Array Index"
+    trigger: "CWE-665: Improper Initialization"
+    relation: "many-to-one"
+    type: 1
+
+yolodex:
+  pov1: 'CWE-787: Out-of-bounds Write'
+    generic: ['Buffer Overflow']
+    relation: "one-to-one"
+    type: 1
