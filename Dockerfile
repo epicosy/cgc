@@ -22,6 +22,8 @@ RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && python2 g
 RUN python2 -m pip install cppy==1.1.0 numpy==1.16.6 && \
     python2 -m pip install pycrypto==2.6.1 pyaml==20.4.0 matplotlib==2.1 defusedxml==0.7.1
 
+WORKDIR /cgc
+COPY . /cgc
 
 ################################
 # Install tools and libraries ##
