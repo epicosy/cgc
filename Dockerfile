@@ -29,7 +29,7 @@ COPY . /cgc
 # Install tools and libraries ##
 ################################
 RUN mkdir -p $TOOLS_PATH && cp -r tools/* $TOOLS_PATH && \
-    mkdir -p "/cores" && \
+    mkdir -p "/cores" && mkdir -p $CORPUS_PATH && \
     mkdir -p "/usr/local/share/polls" && mkdir -p "/usr/local/lib/cgc/polls" && mkdir -p "/usr/local/share/povs" && \
     cp "./CMakeLists.txt" $CORPUS_PATH
 
