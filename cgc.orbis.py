@@ -309,4 +309,4 @@ class CGC(BenchmarkHandler):
 
 
 def load(nexus):
-    nexus.handler.register(CGCRepair)
+    nexus.handler.register(CGC)
