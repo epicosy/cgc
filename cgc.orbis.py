@@ -178,7 +178,7 @@ class CGC(CBenchmark):
             # Copy CMakeLists.txt
             shutil.copy2(src=str(corpus_path / 'CMakeLists.txt'), dst=working_dir)
 
-        return {'iid': iid, 'working_dir': working_dir}
+        return {'iid': iid, 'working_dir': str(working_dir)}
 
     def make(self, context: Context, write_build_args: str = None,
              compiler_trail_path: bool = False, replace: bool = False, save_temps: bool = False,
