@@ -254,7 +254,8 @@ class CGC(CBenchmark):
 
             cmd_data = self.build_handler.cmake_build(target=context.project.name, cwd=str(context.build),
                                                       env=self.env)
-        cmd_data.add_return(key='build', value='cmake_source_path')
+        cmd_data['build'] = cmake_source_path
+        
         return cmd_data
 
     def test(self, context: Context, tests: Oracle, timeout: int, neg_pov: bool = False, prefix: str = None,
