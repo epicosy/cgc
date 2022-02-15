@@ -214,14 +214,15 @@ class CGC(CBenchmark):
         if coverage:
             self.env["COVERAGE"] = "True"
 
-        # TODO: check if the fix files can be replaced by the inst files
-        # if fix_files and inst_files and len(fix_files) != len(inst_files):
-        #    error = f"The files [{fix_files}] can not be mapped. Uneven number of files [{inst_files}]."
-        #    raise ValueError(error)
-
-        cmake_source_path = context.build / context.project.name / "CMakeFiles" / f"{context.project.name}.dir"
         if isinstance(inst_files, str):
             inst_files = [inst_files]
+
+        if fix_files and inst_files and len(fix_files) != len(inst_files):
+            error = f"The files [{fix_files}] can not be mapped. Uneven number of files [{inst_files}]."
+            raise OrbisError(error)
+
+        cmake_source_path = context.build / context.project.name / "CMakeFiles" / f"{context.project.name}.dir"
+
         # Backups manifest files
         if backup:
             cmd_data = self.build_handler.backup_manifest_files(out_path=Path(backup), source_path=context.source,
@@ -232,6 +233,7 @@ class CGC(CBenchmark):
                                                                 cmake_path=cmake_source_path,
                                                                 build_path=context.build / context.project.name)
         elif inst_files:
+            inst_fix_files = list(zip(inst_files, fix_files))
             mappings = context.project.map_files(inst_files, replace_ext=('.c', '.i'), skip_ext=[".h"])
             cmake_commands = self.build_handler.get_cmake_commands(working_dir=context.root,
                                                                    src_dir=context.source,
