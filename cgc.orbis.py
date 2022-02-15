@@ -220,7 +220,8 @@ class CGC(CBenchmark):
         #    raise ValueError(error)
 
         cmake_source_path = context.build / context.project.name / "CMakeFiles" / f"{context.project.name}.dir"
-
+        if isinstance(inst_files, str):
+            inst_files = [inst_files]
         # Backups manifest files
         if backup:
             cmd_data = self.build_handler.backup_manifest_files(out_path=Path(backup), source_path=context.source,
@@ -233,10 +234,10 @@ class CGC(CBenchmark):
         elif inst_files:
             mappings = context.project.map_files(inst_files, replace_ext=('.c', '.i'), skip_ext=[".h"])
             cmake_commands = self.build_handler.get_cmake_commands(working_dir=context.root,
-                                                                   src_dir=context.source / context.project.modules[
-                                                                       'source'],
+                                                                   src_dir=context.source,
                                                                    build_dir=context.build, skip_str="-DPATCHED",
                                                                    compiler_trail_path=compiler_trail_path)
+
             inst_commands = self.build_handler.commands_to_instrumented(mappings=mappings, commands=cmake_commands,
                                                                         replace_str=('-save-temps=obj', ''))
             cmd_data = self.build_handler.cmake_build_preprocessed(inst_commands=inst_commands,
@@ -278,9 +279,10 @@ class CGC(CBenchmark):
 
             args = f"{tests.args} --xml {test.file}"
 
-            _, outcome = self.test_handler.run(context, test, timeout=timeout, script=tests.script, env=self.env,
+            cmd_data, outcome = self.test_handler.run(context, test, timeout=timeout, script=tests.script, env=self.env,
                                                cwd=tests.cwd, kill=True, args=args,
                                                process_outcome=parse_output_to_outcome)
+            self.app.log.debug(str(cmd_data))
             test_outcomes.append(outcome)
 
             if outcome.is_pov and neg_pov:
