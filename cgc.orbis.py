@@ -209,7 +209,7 @@ class CGC(CBenchmark):
     def build(self, context: Context, coverage: bool = False, fix_files: List[AnyStr] = None,
               inst_files: List[AnyStr] = None, cpp_files: bool = False, backup: str = None, link: bool = False,
               replace: bool = False, tag: str = None, save_temps: bool = False, write_build_args: str = None,
-              compiler_trail_path: bool = False, **kwargs) -> Tuple[CommandData, Path]:
+              compiler_trail_path: bool = False, **kwargs) -> CommandData:
 
         if coverage:
             self.env["COVERAGE"] = "True"
