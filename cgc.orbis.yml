@@ -47,7 +47,7 @@ cgc:
             - "Access of Uninitialized Pointer"
           locs:
             "src/main.c":
-              - 207
+              205: 205
       patches:
         00d485b: 8e71d73
       modules:

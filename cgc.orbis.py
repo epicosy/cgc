@@ -183,7 +183,7 @@ class CGC(CBenchmark):
     def make(self, context: Context, write_build_args: str = None,
              compiler_trail_path: bool = False, replace: bool = False, save_temps: bool = False,
              **kwargs) -> CommandData:
-
+        self.app.log.error(f"SAVETEMPS: {save_temps}")
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         cmd_data = CommandData(args=f"cmake {cmake_opts} {context.root} -DCB_PATH:STRING={context.project.name}",
                                cwd=str(context.build), env=self.env)
@@ -209,19 +209,25 @@ class CGC(CBenchmark):
     def build(self, context: Context, coverage: bool = False, fix_files: List[AnyStr] = None,
               inst_files: List[AnyStr] = None, cpp_files: bool = False, backup: str = None, link: bool = False,
               replace: bool = False, tag: str = None, save_temps: bool = False, write_build_args: str = None,
-              compiler_trail_path: bool = False, **kwargs) -> CommandData:
+              replace_ext: list = None, compiler_trail_path: bool = False, **kwargs) -> Tuple[CommandData, Path]:
 
         if coverage:
             self.env["COVERAGE"] = "True"
 
+        if replace_ext and len(replace_ext) != 2:
+            raise OrbisError(f"'replace_ext' must be a list with 2 elements: [str, replace].")
+
+        cmake_source_path = context.build / context.project.name / "CMakeFiles" / f"{context.project.name}.dir"
+
         if isinstance(inst_files, str):
             inst_files = [inst_files]
 
-        if fix_files and inst_files and len(fix_files) != len(inst_files):
-            error = f"The files [{fix_files}] can not be mapped. Uneven number of files [{inst_files}]."
-            raise OrbisError(error)
+        if isinstance(fix_files, str):
+            fix_files = [fix_files]
 
-        cmake_source_path = context.build / context.project.name / "CMakeFiles" / f"{context.project.name}.dir"
+        if fix_files and inst_files and len(fix_files) != len(inst_files):
+            error = f"The files {fix_files} can not be mapped. Uneven number of files {inst_files}."
+            raise OrbisError(error)
 
         # Backups manifest files
         if backup:
@@ -234,7 +240,7 @@ class CGC(CBenchmark):
                                                                 build_path=context.build / context.project.name)
         elif inst_files:
             inst_fix_files = list(zip(inst_files, fix_files))
-            mappings = context.project.map_files(inst_files, replace_ext=('.c', '.i'), skip_ext=[".h"])
+            mappings = context.project.map_files(inst_fix_files, replace_ext=replace_ext, skip_ext=[".h"])
             cmake_commands = self.build_handler.get_cmake_commands(working_dir=context.root,
                                                                    src_dir=context.source,
                                                                    build_dir=context.build, skip_str="-DPATCHED",
@@ -242,8 +248,9 @@ class CGC(CBenchmark):
 
             inst_commands = self.build_handler.commands_to_instrumented(mappings=mappings, commands=cmake_commands,
                                                                         replace_str=('-save-temps=obj', ''))
+
             cmd_data = self.build_handler.cmake_build_preprocessed(inst_commands=inst_commands,
-                                                                   build_path=context.build)
+                                                                   build_path=context.build / context.project.name)
 
             # links objects into executable
             cmd_data = self.build_handler.cmake_link_executable(source_path=context.source,
