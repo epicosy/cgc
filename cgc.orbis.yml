@@ -9,6 +9,9 @@ cgc:
       id: YAN01_00010
       oracle:
         path: "/usr/local/share/polls/BitBlaster/poller/for-release"
+        generator: 
+          script: "python2 -B /usr/local/share/pyshared/cgc/generate-polls/generate-polls"
+          path: "/usr/local/share/polls/BitBlaster/poller/"
         cwd: "/usr/local/share/pyshared/cgc"
         script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
         cases:

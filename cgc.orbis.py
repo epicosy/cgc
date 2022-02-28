@@ -289,8 +289,8 @@ class CGC(CBenchmark):
             args = f"{tests.args} --xml {test.file}"
 
             cmd_data, outcome = self.test_handler.run(context, test, timeout=timeout, script=tests.script, env=self.env,
-                                               cwd=tests.cwd, kill=True, args=args,
-                                               process_outcome=parse_output_to_outcome)
+                                                      cwd=tests.cwd, kill=True, args=args,
+                                                      process_outcome=parse_output_to_outcome)
             self.app.log.debug(str(cmd_data))
             test_outcomes.append(outcome)
 
@@ -319,6 +319,131 @@ class CGC(CBenchmark):
                     self.failed = True
             '''
         return test_outcomes
+
+    def install_shared_objects(self, project: Project):
+        # check if shared objects are installed
+        project_path = Path(self.get_config('corpus'), project.name)
+        cmake_file = project_path / "CMakeLists.txt"
+
+        with cmake_file.open(mode='r') as cmf:
+            has_shared_objects = 'buildSO()' in cmf.read()
+
+        if has_shared_objects:
+            lib_polls_dir = Path(self.env["LD_LIBRARY_PATH"], 'polls')
+            self.env["LD_LIBRARY_PATH"] = str(lib_polls_dir) + ":" + self.env["LD_LIBRARY_PATH"]
+            lib_id_path = lib_polls_dir / f"lib{project.id}.so"
+
+            if lib_id_path.exists():
+                self.app.log.info(f"Shared objects {lib_id_path.name} already installed.")
+            else:
+                build_path = Path('/tmp', challenge_id)
+                build_path.mkdir(parents=True)
+
+                # make files
+                if not build_path.exists():
+                    self.app.log.info("Creating build directory")
+                    build_path.mkdir(exist_ok=True)
+
+                cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
+                cmd_data = CommandData(args=f"cmake {cmake_opts} {build_path} -DCB_PATH:STRING={project.name}",
+                                       cwd=str(build_path))
+                super().__call__(cmd_data=cmd_data, msg="Creating build files.", raise_err=True,
+                                 env=self.env)
+
+                # build shared objects
+                cmd_data = CommandData(args=f"cmake --build . --target {project.id}", cwd=str(build_path))
+                super().__call__(cmd_data=cmd_data, msg=f"Building {project.id}", raise_err=True)
+
+                # install shared objects
+                cmd_data = CommandData(args=f"cmake --install {build_path}", cwd=str(build_path))
+                super().__call__(cmd_data=cmd_data, raise_err=True,
+                                 msg=f"Installing shared objects {lib_id_path.name} for {project.name}.")
+                self.app.log.info(f"Installed shared objects.")
+
+    def gen_tests(self, project: Project, count: int = None):
+        self.install_shared_objects(project)
+        polls_path = Path(project.oracle.path)
+
+        if not count:
+            count = len(project.oracle.cases)
+
+        if polls_path.exists() and len(list(polls_path.iterdir())) > 0:
+            self.app.log.warning(f"Deleting existing polls for {project.id}.")
+            shutil.rmtree(str(polls_path))
+
+        #self.app.log.info(f"Creating directories for {project.id} polls.")
+        #polls_path.mkdir(parents=True)
+        out_dir, polls = self.state_machine(project, count)
+
+        if out_dir:
+            if not out_dir.exists() or len(list(out_dir.iterdir())) < count:
+                self.copy_polls(project, polls, out_dir, count)
+        else:
+            raise OrbisError(f"No poller directories for {challenge.name}")
+
+    def state_machine(self, project: Project, count: int):
+        # looks for the state machine scripts used for generating polls and runs it
+        # otherwise sets the directory with the greatest number of polls
+        project_path = Path(self.get_config('corpus'), project.name, 'poller')
+        pollers = list(project_path.iterdir())
+
+        # prioritize the for-testing poller
+        if len(pollers) > 1:
+            pollers.sort(reverse=True)
+
+        final_polls = []
+        out_dir = None
+
+        for poll_dir in pollers:
+            if poll_dir.is_dir():
+                polls = [poll for poll in poll_dir.iterdir() if poll.suffix == ".xml"]
+
+                if len(polls) > len(final_polls):
+                    final_polls = polls
+
+                out_dir = Path(project.oracle.generator.path, poll_dir.name)
+                state_machine_script = poll_dir / Path("machine.py")
+                state_graph = poll_dir / Path("state-graph.yaml")
+
+                if state_machine_script.exists() and state_graph.exists():
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    cmd_str = f"{project.oracle.generator.script} --count {count} " \
+                              f"--store_seed --depth 1048575 {state_machine_script} {state_graph} {out_dir}"
+
+                    cmd_data = CommandData(args=cmd_str, cwd=str(project_path))
+                    cmd_data = super().__call__(cmd_data=cmd_data, msg=f"Generating polls for {project.name}.\n",
+                                                raise_err=False)
+
+                    if cmd_data.error:
+                        if 'AssertionError' in cmd_data.error:
+                            self.app.log.warning(cmd_data.error)
+                        else:
+                            continue
+
+                    self.app.log.info(f"Generated polls for {project.name}.")
+                    return out_dir, final_polls
+
+        return out_dir, final_polls
+
+    def copy_polls(self, project: Project, polls: list, out_dir: Path, count: int):
+        if polls:
+            self.app.log.warning(f"No scripts for generating polls for {project.name}.")
+            self.app.log.info(f"Coping pre-generated polls for {project.name}.\n")
+            out_dir.mkdir(parents=True, exist_ok=True)
+
+            if len(polls) < count:
+                warning = f"Number of polls available {len(polls)} less than the number specified {count}"
+                self.app.log.warning(warning)
+
+            polls.sort()
+            polls = polls[:count] if len(polls) > count else polls
+
+            for poll in polls:
+                shutil.copy(str(poll), out_dir)
+            self.app.log.info(f"Copied polls for {project.name}.")
+
+        else:
+            raise OrbisError(f"No pre-generated polls found for {project.name}.")
 
 
 def load(nexus):
