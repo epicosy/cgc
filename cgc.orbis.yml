@@ -39,7 +39,7 @@ cgc:
             path: "/usr/local/share/povs/BitBlaster"
             args: " --cores_path /cores --should_core"
             cases:
-              pov1:
+              pov_1:
                 order: 1
                 file: "pov_1.pov"
           cve: ~
