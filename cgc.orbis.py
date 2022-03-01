@@ -156,9 +156,9 @@ class CGC(CBenchmark):
     class Meta:
         label = 'cgc'
 
-    def set(self, project: Project):
+    def set(self, project: Project, m64: bool = True, **kwargs):
         self.env["CGC_INCLUDE_DIR"] = project.packages['include']
-        lib_path = project.packages['lib32' if "M32" in self.env else 'lib64']
+        lib_path = project.packages['lib64' if m64 else 'lib32']
         self.env["CGC_LIB_DIR"] = lib_path
 
         if "LD_LIBRARY_PATH" in self.env:
@@ -320,7 +320,7 @@ class CGC(CBenchmark):
             '''
         return test_outcomes
 
-    def install_shared_objects(self, project: Project):
+    def install_shared_objects(self, project: Project, replace: bool = False, save_temps: bool = False):
         # check if shared objects are installed
         project_path = Path(self.get_config('corpus'), project.name)
         cmake_file = project_path / "CMakeLists.txt"
@@ -336,7 +336,7 @@ class CGC(CBenchmark):
             if lib_id_path.exists():
                 self.app.log.info(f"Shared objects {lib_id_path.name} already installed.")
             else:
-                build_path = Path('/tmp', challenge_id)
+                build_path = Path('/tmp', project.id)
                 build_path.mkdir(parents=True)
 
                 # make files
@@ -360,8 +360,8 @@ class CGC(CBenchmark):
                                  msg=f"Installing shared objects {lib_id_path.name} for {project.name}.")
                 self.app.log.info(f"Installed shared objects.")
 
-    def gen_tests(self, project: Project, count: int = None):
-        self.install_shared_objects(project)
+    def gen_tests(self, project: Project, count: int = None, replace: bool = False, save_temps: bool = False):
+        self.install_shared_objects(project, replace=replace, save_temps=save_temps)
         polls_path = Path(project.oracle.path)
 
         if not count:
@@ -371,8 +371,8 @@ class CGC(CBenchmark):
             self.app.log.warning(f"Deleting existing polls for {project.id}.")
             shutil.rmtree(str(polls_path))
 
-        #self.app.log.info(f"Creating directories for {project.id} polls.")
-        #polls_path.mkdir(parents=True)
+        # self.app.log.info(f"Creating directories for {project.id} polls.")
+        # polls_path.mkdir(parents=True)
         out_dir, polls = self.state_machine(project, count)
 
         if out_dir:
@@ -380,6 +380,40 @@ class CGC(CBenchmark):
                 self.copy_polls(project, polls, out_dir, count)
         else:
             raise OrbisError(f"No poller directories for {challenge.name}")
+
+    def gen_povs(self, project: Project, replace: bool = False, save_temps: bool = False):
+        executed_commands = []
+
+        build_dir = Path('/tmp', project.name + "_povs")
+
+        if not build_dir.exists():
+            self.app.log.info("Creating build directory")
+            build_dir.mkdir(exist_ok=True)
+
+        # make files
+        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
+        executed_commands.append(super().__call__(
+            cmd_data=CommandData(args=f"cmake {cmake_opts} {build_dir} -DCB_PATH:STRING={project.name}",
+                                 cwd=str(build_dir)),
+            msg="Creating build files.", raise_err=True, env=self.env))
+
+        for m in project.manifest:
+            if not m.vuln.oracle.path.exists():
+                self.app.log.info(f"Creating directory for {m.vuln.id} POVs.")
+                m.vuln.oracle.path.mkdir(parents=True)
+
+            # build povs
+            for pov in m.vuln.oracle.cases.keys():
+                executed_commands.append(super().__call__(
+                    cmd_data=CommandData(args=f"cmake --build . --target {project.name}_{pov}", cwd=str(build_dir)),
+                    msg=f"Building {m.vuln.id} POVs", raise_err=True))
+                shutil.copy2(f"{build_dir}/{project.name}/{pov}.pov", str(m.vuln.oracle.path))
+
+            self.app.log.info(f"Built POVs for {challenge.name}.")
+
+            shutil.rmtree(str(build_dir))
+
+        return executed_commands
 
     def state_machine(self, project: Project, count: int):
         # looks for the state machine scripts used for generating polls and runs it
