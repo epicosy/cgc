@@ -414,7 +414,7 @@ class CGC(CBenchmark):
                                                                         cwd=str(build_dir), env=self.env))
                 shutil.copy2(f"{build_dir}/{project.name}/{pov}.pov", str(m.vuln.oracle.path))
 
-            self.app.log.info(f"Built POVs for {challenge.name}.")
+            self.app.log.info(f"Built POVs for {project.name}.")
 
             shutil.rmtree(str(build_dir))
 
