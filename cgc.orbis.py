@@ -394,8 +394,8 @@ class CGC(CBenchmark):
         # make files
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         executed_commands.append(super().__call__(
-            cmd_data=CommandData(args=f"cmake {cmake_opts} {self.get_config('corpus')} -DCB_PATH:STRING={project.name}",
-                                 cwd=str(project_path)),
+            cmd_data=CommandData(args=f"cmake {cmake_opts} {project_path} -DCB_PATH:STRING={project.name}",
+                                 cwd=str(build_dir)),
             msg="Creating build files.", raise_err=True, env=self.env))
 
         for m in project.manifest:
