@@ -410,7 +410,7 @@ class CGC(CBenchmark):
 
             # build povs
             for pov in m.vuln.oracle.cases.keys():
-                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov}", raise_err=True,
+                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov}",
                                                                         cwd=str(build_dir), env=self.env))
                 shutil.copy2(f"{build_dir}/{project.name}/{pov}.pov", str(m.vuln.oracle.path))
 
