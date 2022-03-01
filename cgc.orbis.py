@@ -383,6 +383,7 @@ class CGC(CBenchmark):
 
     def gen_povs(self, project: Project, replace: bool = False, save_temps: bool = False):
         executed_commands = []
+        project_path = Path(self.get_config('corpus'), project.name)
 
         build_dir = Path('/tmp', project.name + "_povs")
 
@@ -394,7 +395,7 @@ class CGC(CBenchmark):
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         executed_commands.append(super().__call__(
             cmd_data=CommandData(args=f"cmake {cmake_opts} {build_dir} -DCB_PATH:STRING={project.name}",
-                                 cwd=str(build_dir)),
+                                 cwd=str(project_path)),
             msg="Creating build files.", raise_err=True, env=self.env))
 
         for m in project.manifest:
