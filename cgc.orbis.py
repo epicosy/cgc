@@ -384,13 +384,13 @@ class CGC(CBenchmark):
     def gen_povs(self, project: Project, replace: bool = False, save_temps: bool = False):
         executed_commands = []
         project_path = Path(self.get_config('corpus'), project.name)
-
         build_dir = Path('/tmp', project.name + "_povs")
 
         if not build_dir.exists():
             self.app.log.info("Creating build directory")
             build_dir.mkdir(exist_ok=True)
 
+        shutil.copy2(src=str(project_path.parent / 'CMakeLists.txt'), dst=build_dir)
         # make files
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         executed_commands.append(super().__call__(
