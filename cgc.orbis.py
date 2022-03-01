@@ -395,8 +395,8 @@ class CGC(CBenchmark):
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         executed_commands.append(super().__call__(
             cmd_data=CommandData(args=f"cmake {cmake_opts} {self.get_config('corpus')} -DCB_PATH:STRING={project.name}",
-                                 cwd=str(build_dir)),
-            msg="Creating build files.", raise_err=True, env=self.env))
+                                 cwd=str(build_dir), env=self.env),
+            msg="Creating build files.", raise_err=True))
 
         for m in project.manifest:
             if not m.vuln.oracle.path.exists():
