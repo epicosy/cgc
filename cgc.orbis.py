@@ -383,6 +383,7 @@ class CGC(CBenchmark):
 
     def gen_povs(self, project: Project, replace: bool = False, save_temps: bool = False):
         executed_commands = []
+        project_path = Path(self.get_config('corpus'), project.name)
 
         build_dir = Path('/tmp', project.name + "_povs")
 
@@ -394,7 +395,7 @@ class CGC(CBenchmark):
         cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
         executed_commands.append(super().__call__(
             cmd_data=CommandData(args=f"cmake {cmake_opts} {self.get_config('corpus')} -DCB_PATH:STRING={project.name}",
-                                 cwd=str(build_dir)),
+                                 cwd=str(project_path)),
             msg="Creating build files.", raise_err=True, env=self.env))
 
         for m in project.manifest:
@@ -404,9 +405,8 @@ class CGC(CBenchmark):
 
             # build povs
             for pov in m.vuln.oracle.cases.keys():
-                executed_commands.append(super().__call__(
-                    cmd_data=CommandData(args=f"cmake --build . --target {project.name}_{pov}", cwd=str(build_dir)),
-                    msg=f"Building {m.vuln.id} POVs", raise_err=True))
+                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov}", raise_err=True,
+                                                                        cwd=str(build_dir), env=self.env))
                 shutil.copy2(f"{build_dir}/{project.name}/{pov}.pov", str(m.vuln.oracle.path))
 
             self.app.log.info(f"Built POVs for {challenge.name}.")
