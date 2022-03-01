@@ -114,7 +114,7 @@ def parse_output_to_outcome(cmd_data: CommandData, test: Test, test_outcome: Tes
     return pids
 
 
-def config_cmake(env: Dict[Any, Any], replace: bool = False, save_temps: bool = False) -> str:
+def config_cmake(env: Dict[Any, Any], m64: bool = False, replace: bool = False, save_temps: bool = False) -> str:
     cmake_opts = f"{env['CMAKE_OPTS']}" if 'CMAKE_OPTS' in env else ""
 
     if replace:
@@ -126,7 +126,7 @@ def config_cmake(env: Dict[Any, Any], replace: bool = False, save_temps: bool = 
         env["SAVETEMPS"] = "True"
 
     # setting platform architecture
-    if '64bit' in platform.architecture()[0] and "M32" not in env:
+    if '64bit' in platform.architecture()[0] and m64:
         cmake_opts = f"{cmake_opts} -DCMAKE_SYSTEM_PROCESSOR=amd64"
     else:
         cmake_opts = f"{cmake_opts} -DCMAKE_SYSTEM_PROCESSOR=i686"
@@ -156,8 +156,13 @@ class CGC(CBenchmark):
     class Meta:
         label = 'cgc'
 
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.m64 = False
+
     def set(self, project: Project, m64: bool = True, **kwargs):
         self.env["CGC_INCLUDE_DIR"] = project.packages['include']
+        self.m64 = m64
         lib_path = project.packages['lib64' if m64 else 'lib32']
         self.env["CGC_LIB_DIR"] = lib_path
 
@@ -392,7 +397,7 @@ class CGC(CBenchmark):
 
         shutil.copy2(src=str(project_path.parent / 'CMakeLists.txt'), dst=build_dir)
         # make files
-        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
+        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps, m64=self.m64)
         executed_commands.append(super().__call__(
             cmd_data=CommandData(args=f"cmake {cmake_opts} {self.get_config('corpus')} -DCB_PATH:STRING={project.name}",
                                  cwd=str(build_dir), env=self.env),
