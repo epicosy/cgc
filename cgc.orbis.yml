@@ -141,7 +141,7 @@ cgc:
         version: "3.12"
       manifest:
         b2b513c:
-          id: KPRCA_00010_1
+          id: KPRCA_00020_1
           cwe: 125
           build:
             version: "3.12"
