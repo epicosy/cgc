@@ -116,14 +116,14 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
-    epicosy/ASL6parser:
-      name: ASL6parser
+    epicosy/ASL6parse:
+      name: ASL6parse
       id: KPRCA_00020
       oracle:
-        path: "/usr/local/share/polls/ASL6parser/poller/for-release"
+        path: "/usr/local/share/polls/ASL6parse/poller/for-release"
         generator: 
           script: "python2 -B /usr/local/share/pyshared/cgc/generate-polls/generate-polls"
-          path: "/usr/local/share/polls/ASL6parser/poller/"
+          path: "/usr/local/share/polls/ASL6parse/poller/"
         cwd: "/usr/local/share/pyshared/cgc"
         script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
         cases:
@@ -148,7 +148,7 @@ cgc:
           oracle:
             cwd: "/usr/local/share/pyshared/cgc"
             script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
-            path: "/usr/local/share/povs/ASL6parser"
+            path: "/usr/local/share/povs/ASL6parse"
             args: " --cores_path /cores --should_core"
             cases:
               pov_1:
