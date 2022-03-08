@@ -61,3 +61,60 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
+    epicosy/Audio_Visualizer:
+      name: Audio_Visualizer
+      id: KPRCA_00010
+      oracle:
+        path: "/usr/local/share/polls/Audio_Visualizer/poller/for-release"
+        generator: 
+          script: "python2 -B /usr/local/share/pyshared/cgc/generate-polls/generate-polls"
+          path: "/usr/local/share/polls/Audio_Visualizer/poller/"
+        cwd: "/usr/local/share/pyshared/cgc"
+        script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
+        cases:
+          t1:
+            order: 1
+            file: GEN_00000_00000.xml
+          t2:
+            order: 2
+            file: GEN_00000_00001.xml
+          t3:
+            order: 3
+            file: GEN_00000_00002.xml
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        de7f0c7:
+          id: YAN01_00010_1
+          cwe: 122
+          build:
+            version: "3.12"
+          oracle:
+            cwd: "/usr/local/share/pyshared/cgc"
+            script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
+            path: "/usr/local/share/povs/Audio_Visualizer"
+            args: " --cores_path /cores --should_core"
+            cases:
+              pov_1:
+                order: 1
+                file: "pov_1.pov"
+          cve: ~
+          related:
+            - 476
+          generic:
+            - "Heap buffer overflow"
+          locs:
+            "src/uwfc.c":
+              122: 122
+              139: 139
+      patches:
+        de7f0c7: 99c8cb7
+      modules:
+        source: "src"
+        lib: ~
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
