@@ -86,7 +86,7 @@ cgc:
         version: "3.12"
       manifest:
         de7f0c7:
-          id: YAN01_00010_1
+          id: KPRCA_00010_1
           cwe: 122
           build:
             version: "3.12"
