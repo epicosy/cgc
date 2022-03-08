@@ -1,7 +1,7 @@
 cgc:
   corpus: "/usr/local/src/cgc"
   testing:
-    timeout: 60
+    timeout: 20
     margin: 15
   dataset:
     epicosy/BitBlaster:
