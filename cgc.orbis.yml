@@ -100,8 +100,6 @@ cgc:
                 order: 1
                 file: "pov_1.pov"
           cve: ~
-          related:
-            - 476
           generic:
             - "Heap buffer overflow"
           locs:
@@ -110,6 +108,68 @@ cgc:
               139: 139
       patches:
         de7f0c7: 99c8cb7
+      modules:
+        source: "src"
+        lib: ~
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
+    epicosy/ASL6parser:
+      name: ASL6parser
+      id: KPRCA_00020
+      oracle:
+        path: "/usr/local/share/polls/ASL6parser/poller/for-release"
+        generator: 
+          script: "python2 -B /usr/local/share/pyshared/cgc/generate-polls/generate-polls"
+          path: "/usr/local/share/polls/ASL6parser/poller/"
+        cwd: "/usr/local/share/pyshared/cgc"
+        script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
+        cases:
+          t1:
+            order: 1
+            file: GEN_00000_00000.xml
+          t2:
+            order: 2
+            file: GEN_00000_00001.xml
+          t3:
+            order: 3
+            file: GEN_00000_00002.xml
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        b2b513c:
+          id: KPRCA_00010_1
+          cwe: 125
+          build:
+            version: "3.12"
+          oracle:
+            cwd: "/usr/local/share/pyshared/cgc"
+            script: "python2 /usr/local/share/pyshared/cgc/cb-test.py"
+            path: "/usr/local/share/povs/ASL6parser"
+            args: " --cores_path /cores --should_core"
+            cases:
+              pov_1:
+                order: 1
+                file: "pov_1.pov"
+              pov_2:
+                order: 2
+                file: "pov_2.pov"
+              pov_3:
+                order: 3
+                file: "pov_3.pov"
+          cve: ~
+          generic:
+            - "Out-of-bounds Read"
+          locs:
+            "src/asl6.c":
+              185: 185
+              404: 404
+              411: 411
+      patches:
+        b2b513c: ec51441
       modules:
         source: "src"
         lib: ~
