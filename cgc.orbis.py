@@ -365,8 +365,8 @@ class CGC(CBenchmark):
                                  msg=f"Installing shared objects {lib_id_path.name} for {project.name}.")
                 self.app.log.info(f"Installed shared objects.")
 
-    def gen_tests(self, project: Project, count: int = None, replace: bool = False, save_temps: bool = False):
-        self.install_shared_objects(project, replace=replace, save_temps=save_temps)
+    def gen_tests(self, project: Project, count: int = None, replace: bool = False):
+        self.install_shared_objects(project, replace=replace, save_temps=False)
         polls_path = Path(project.oracle.path)
 
         if not count:
@@ -386,7 +386,7 @@ class CGC(CBenchmark):
         else:
             raise OrbisError(f"No poller directories for {challenge.name}")
 
-    def gen_povs(self, project: Project, replace: bool = False, save_temps: bool = False):
+    def gen_povs(self, project: Project, replace: bool = False):
         executed_commands = []
         project_path = Path(self.get_config('corpus'), project.name)
         build_dir = Path('/tmp', project.name + "_povs")
@@ -397,7 +397,7 @@ class CGC(CBenchmark):
 
         shutil.copy2(src=str(project_path.parent / 'CMakeLists.txt'), dst=build_dir)
         # make files
-        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps, m64=self.m64)
+        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=False, m64=self.m64)
         executed_commands.append(super().__call__(
             cmd_data=CommandData(args=f"cmake {cmake_opts} {self.get_config('corpus')} -DCB_PATH:STRING={project.name}",
                                  cwd=str(build_dir), env=self.env),
@@ -447,7 +447,7 @@ class CGC(CBenchmark):
                 if state_machine_script.exists() and state_graph.exists():
                     out_dir.mkdir(parents=True, exist_ok=True)
                     cmd_str = f"{project.oracle.generator.script} --count {count} " \
-                              f"--store_seed --depth 1048575 {state_machine_script} {state_graph} {out_dir}"
+                              f"--store_seed --depth 947695443 {state_machine_script} {state_graph} {out_dir}"
 
                     cmd_data = CommandData(args=cmd_str, cwd=str(project_path))
                     cmd_data = super().__call__(cmd_data=cmd_data, msg=f"Generating polls for {project.name}.\n",
