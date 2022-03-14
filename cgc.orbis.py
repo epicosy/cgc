@@ -409,10 +409,11 @@ class CGC(CBenchmark):
                 m.vuln.oracle.path.mkdir(parents=True)
 
             # build povs
-            for pov in m.vuln.oracle.cases.keys():
-                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov}",
+            for pov_name, pov in m.vuln.oracle.cases.items():
+                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov_name}",
                                                                         cwd=str(build_dir), env=self.env))
-                shutil.copy2(f"{build_dir}/{project.name}/{pov}.pov", str(m.vuln.oracle.path))
+                executed_commands[-1].returns[pov_name] = pov
+                shutil.copy2(f"{build_dir}/{project.name}/{pov_name}.pov", str(m.vuln.oracle.path))
 
             self.app.log.info(f"Built POVs for {project.name}.")
 
