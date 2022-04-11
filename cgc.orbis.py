@@ -241,6 +241,11 @@ class CGC(CBenchmark):
             error = f"The files {fix_files} can not be mapped. Uneven number of files {inst_files}."
             raise OrbisError(error)
 
+        cmake_commands = self.build_handler.get_cmake_commands(working_dir=context.root,
+                                                               src_dir=context.source,
+                                                               build_dir=context.build, skip_str="-DPATCHED",
+                                                               compiler_trail_path=compiler_trail_path)
+
         # Backups manifest files
         if backup:
             cmd_data = self.build_handler.backup_manifest_files(out_path=Path(backup), source_path=context.source,
@@ -253,10 +258,6 @@ class CGC(CBenchmark):
         elif inst_files:
             inst_fix_files = list(zip(inst_files, fix_files))
             mappings = context.project.map_files(inst_fix_files, replace_ext=replace_ext, skip_ext=[".h"])
-            cmake_commands = self.build_handler.get_cmake_commands(working_dir=context.root,
-                                                                   src_dir=context.source,
-                                                                   build_dir=context.build, skip_str="-DPATCHED",
-                                                                   compiler_trail_path=compiler_trail_path)
 
             inst_commands = self.build_handler.commands_to_instrumented(mappings=mappings, commands=cmake_commands,
                                                                         replace_str=('-save-temps=obj', ''))
@@ -278,7 +279,7 @@ class CGC(CBenchmark):
                                                       env=self.env)
             
         cmd_data['build'] = str(cmake_source_path)
-        cmd_data['build_args'] = {k: v['command'] for k, v in self.build_handler.get_cmake_commands()}
+        cmd_data['build_args'] = {k: v['command'] for k, v in cmake_commands}
 
         return cmd_data
 
