@@ -215,7 +215,7 @@ class CGC(CBenchmark):
               inst_files: List[AnyStr] = None, cpp_files: bool = False, backup: str = None, link: bool = False,
               replace: bool = False, tag: str = None, save_temps: bool = False, write_build_args: str = None,
               replace_ext: list = None, compiler_trail_path: bool = False, **kwargs) -> Tuple[CommandData, Path]:
-
+        
         if coverage:
             self.env["COVERAGE"] = "True"
 
@@ -269,7 +269,9 @@ class CGC(CBenchmark):
 
             cmd_data = self.build_handler.cmake_build(target=context.project.name, cwd=str(context.build),
                                                       env=self.env)
+            
         cmd_data['build'] = str(cmake_source_path)
+        cmd_data['build_args'] = {k: v['command'] for k, v in self.build_handler.get_cmake_commands()}
 
         return cmd_data
 
