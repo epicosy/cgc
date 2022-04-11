@@ -282,7 +282,7 @@ class CGC(CBenchmark):
                                                                build_dir=context.build, skip_str="-DPATCHED",
                                                                compiler_trail_path=compiler_trail_path)
         cmd_data['build'] = str(cmake_source_path)
-        cmd_data['build_args'] = {k: v['command'] for k, v in cmake_commands}
+        cmd_data['build_args'] = {k: v['command'] for k, v in cmake_commands.items()}
 
         return cmd_data
 
