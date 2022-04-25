@@ -12,19 +12,19 @@ cgc:
         version: "3.12"
       manifest:
         00d485b:
-          id: YAN01_00010_1
-          cwe: 824
-          build:
-            version: "3.12"
-          cve: ~
-          related:
-            - 476
-          generic:
-            - "NULL Pointer Dereference"
-            - "Access of Uninitialized Pointer"
-          locs:
-            "src/main.c":
-              205: 205
+          YAN01_00010_1:
+              cwe: 824
+              build:
+                version: "3.12"
+              cve: ~
+              related:
+                - 476
+              generic:
+                - "NULL Pointer Dereference"
+                - "Access of Uninitialized Pointer"
+              locs:
+                "src/main.c":
+                  205: 205
       patches:
         00d485b: 8e71d73
       modules:
@@ -43,17 +43,17 @@ cgc:
         version: "3.12"
       manifest:
         de7f0c7:
-          id: KPRCA_00010_1
-          cwe: 122
-          build:
-            version: "3.12"
-          cve: ~
-          generic:
-            - "Heap buffer overflow"
-          locs:
-            "src/uwfc.c":
-              122: 122
-              139: 139
+          KPRCA_00010_1:
+              cwe: 122
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Heap buffer overflow"
+              locs:
+                "src/uwfc.c":
+                  122: 122
+                  139: 139
       patches:
         de7f0c7: 99c8cb7
       modules:
@@ -72,18 +72,18 @@ cgc:
         version: "3.12"
       manifest:
         b2b513c:
-          id: KPRCA_00020_1
-          cwe: 125
-          build:
-            version: "3.12"
-          cve: ~
-          generic:
-            - "Out-of-bounds Read"
-          locs:
-            "src/asl6.c":
-              185: 185
-              404: 404
-              411: 411
+          KPRCA_00020_1:
+              cwe: 125
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Out-of-bounds Read"
+              locs:
+                "src/asl6.c":
+                  185: 185
+                  404: 404
+                  411: 411
       patches:
         b2b513c: ec51441
       modules:
@@ -102,17 +102,17 @@ cgc:
         version: "3.12"
       manifest:
         f1193a0:
-          id: YAN01_00011_1
-          cwe: 125
-          build:
-            version: "3.12"
-          cve: ~
-          generic:
-            - "Out-of-bounds Read"
-          locs:
-            "src/main.c":
-              306: 306
-              386: 386
+          YAN01_00011_1:
+              cwe: 125
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Out-of-bounds Read"
+              locs:
+                "src/main.c":
+                  306: 306
+                  386: 386
       patches:
         f1193a0: 387f201
       modules:
@@ -131,18 +131,58 @@ cgc:
         version: "3.12"
       manifest:
         2176caf:
-          id: CROMU_00008_1
-          cwe: 119
-          build:
-            version: "3.12"
-          cve: ~
-          generic:
-            - "Out of bounds write"
-          locs:
-            "src/expression_parser.c":
-              71: 72
+          CROMU_00008_1:
+              cwe: 119
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Out of bounds write"
+              locs:
+                "src/expression_parser.c":
+                  71: 72
       patches:
         2176caf: d15687b
+      modules:
+        source: "src"
+        lib: "lib"
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
+    epicosy/RAM_based_filesystem:
+      name: RAM_based_filesystem
+      id: CROMU_00009
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        2843f37:
+          CROMU_00009_1:
+              cwe: 787
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Incorrect array bounds check leading to buffer overflow and arbitrary writes"
+              locs:
+                "src/fs.c":
+                  171: 171
+                  641: 641
+                  652: 652
+          CROMU_00009_2:
+              cwe: 476
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Null pointer dereference"
+              locs:
+                "src/fs.c":
+                  1080: 1080
+      patches:
+        2843f37: c95d67e
       modules:
         source: "src"
         lib: "lib"
