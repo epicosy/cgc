@@ -418,20 +418,21 @@ class CGC(CBenchmark):
             msg="Creating build files.", raise_err=True))
 
         for m in project.manifest:
-            if not m.vuln.oracle.path.exists():
-                self.app.log.info(f"Creating directory for {m.vuln.id} POVs.")
-                m.vuln.oracle.path.mkdir(parents=True)
-
-            # build povs
-            for pov_name, pov in m.vuln.oracle.cases.items():
-                executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov_name}",
-                                                                        cwd=str(build_dir), env=self.env))
-                executed_commands[-1].returns[pov_name] = pov
-                shutil.copy2(f"{build_dir}/{project.name}/{pov_name}.pov", str(m.vuln.oracle.path))
-
-            self.app.log.info(f"Built POVs for {project.name}.")
-
-            shutil.rmtree(str(build_dir))
+            for k, vuln in m.vulns.items():
+                if not vuln.oracle.path.exists():
+                    self.app.log.info(f"Creating directory for {k} POVs.")
+                    vuln.oracle.path.mkdir(parents=True)
+    
+                # build povs
+                for pov_name, pov in vuln.oracle.cases.items():
+                    executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov_name}",
+                                                                            cwd=str(build_dir), env=self.env))
+                    executed_commands[-1].returns[pov_name] = pov
+                    shutil.copy2(f"{build_dir}/{project.name}/{pov_name}.pov", str(vuln.oracle.path))
+    
+                self.app.log.info(f"Built POVs for {project.name}.")
+    
+                shutil.rmtree(str(build_dir))
 
         return executed_commands
 
