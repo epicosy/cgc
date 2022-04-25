@@ -432,7 +432,7 @@ class CGC(CBenchmark):
     
                 self.app.log.info(f"Built POVs for {project.name}.")
     
-                shutil.rmtree(str(build_dir))
+            shutil.rmtree(str(build_dir))
 
         return executed_commands
 
