@@ -171,7 +171,7 @@ class CGC(CBenchmark):
         else:
             self.env["LD_LIBRARY_PATH"] = lib_path
 
-    def checkout(self, vid: str, working_dir: str = None, root_dir: str = None, **kwargs) -> Dict[str, Any]:
+    def checkout(self, vid: str, working_dir: Path = None, root_dir: str = None, **kwargs) -> Dict[str, Any]:
         project = self.get_by_vid(vid)
         manifest = project.get_manifest(vid)
         corpus_path = Path(self.get_config('corpus'))

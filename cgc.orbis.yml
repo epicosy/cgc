@@ -94,3 +94,32 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
+    epicosy/WordCompletion:
+      name: WordCompletion
+      id: YAN01_00011
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        f1193a0:
+          id: YAN01_00011_1
+          cwe: 125
+          build:
+            version: "3.12"
+          cve: ~
+          generic:
+            - "Out-of-bounds Read"
+          locs:
+            "src/main.c":
+              306: 306
+              386: 386
+      patches:
+        f1193a0: 387f201
+      modules:
+        source: "src"
+        lib: ~
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
