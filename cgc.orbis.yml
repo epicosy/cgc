@@ -123,3 +123,31 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
+    epicosy/expression_database:
+      name: expression_database
+      id: CROMU_00008
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        2176caf:
+          id: CROMU_00008_1
+          cwe: 119
+          build:
+            version: "3.12"
+          cve: ~
+          generic:
+            - "Out of bounds write"
+          locs:
+            "src/expression_parser.c":
+              71: 72
+      patches:
+        2176caf: d15687b
+      modules:
+        source: "src"
+        lib: "lib"
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
