@@ -295,7 +295,7 @@ class CGC(CBenchmark):
         bin_names = get_binaries(context.source, binary=context.build / context.project.name / context.project.name)
         test_outcomes = []
         tests.args = f"{tests.args} --directory {context.build / context.project.name} --concurrent 1 --debug " \
-                     f"--negotiate_seed --timeout {timeout} --cb {' '.join(bin_names)}"
+                     f"--negotiate_seed --cb {' '.join(bin_names)}"
 
         for name, test in tests.cases.items():
             # TODO: check if pov_seed is necessary for POVs
@@ -306,7 +306,7 @@ class CGC(CBenchmark):
             if tests.path:
                 test.file = Path(tests.path, test.file)
 
-            args = f"{tests.args} --xml {test.file}"
+            args = f"{tests.args} --xml {test.file} --timeout {test.timeout if test.timeout else timeout}"
 
             cmd_data, outcome = self.test_handler.run(context, test, timeout=timeout, script=tests.script, env=self.env,
                                                       cwd=tests.cwd, kill=True, args=args,
