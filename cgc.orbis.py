@@ -130,6 +130,7 @@ def config_cmake(env: Dict[Any, Any], m64: bool = False, replace: bool = False, 
         cmake_opts = f"{cmake_opts} -DCMAKE_SYSTEM_PROCESSOR=amd64"
     else:
         cmake_opts = f"{cmake_opts} -DCMAKE_SYSTEM_PROCESSOR=i686"
+        env['M32'] = 'True'
 
     # clang as default compiler
     if "CC" not in env:
