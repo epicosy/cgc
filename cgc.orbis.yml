@@ -191,3 +191,33 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
+    epicosy/yolodex:
+      name: yolodex
+      id: CROMU_00003
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        a0e3cad:
+          CROMU_00003_1:
+              cwe: 787
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Out-of-bounds Write"
+              locs:
+                "src/yolodex.c":
+                  394: 394
+                  401: 401
+                  412: 412
+      patches:
+        46bc68d: a0e3cad
+      modules:
+        source: "src"
+        lib: "lib"
+        include: ~
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
