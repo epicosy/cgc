@@ -161,7 +161,7 @@ class CGC(CBenchmark):
         super().__init__(**kw)
         self.m64 = False
 
-    def set(self, project: Project, m64: bool = True, **kwargs):
+    def set(self, project: Project, m64: bool = False, **kwargs):
         self.env["CGC_INCLUDE_DIR"] = project.packages['include']
         self.m64 = m64
         lib_path = project.packages['lib64' if m64 else 'lib32']
