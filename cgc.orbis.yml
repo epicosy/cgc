@@ -191,6 +191,34 @@ cgc:
         lib32: "/usr/local/lib32/cgc"
         lib64: "/usr/local/lib64/cgc"
         include: "/usr/local/include/cgc"
+    epicosy/Scrum_Database:
+      name: Scrum_Database
+      id: CROMU_00057
+      build:
+        system: "cmake"
+        version: "3.12"
+      manifest:
+        3a91f14:
+          CROMU_00057_1:
+              cwe: 122
+              build:
+                version: "3.12"
+              cve: ~
+              generic:
+                - "Heap buffer overflow"
+              locs:
+                "src/backlogitems.c":
+                  372: 372
+      patches:
+        cf2509f: 3a91f14
+      modules:
+        source: "src"
+        lib: "lib"
+        include: "include"
+      packages:
+        lib32: "/usr/local/lib32/cgc"
+        lib64: "/usr/local/lib64/cgc"
+        include: "/usr/local/include/cgc"
     epicosy/yolodex:
       name: yolodex
       id: CROMU_00003
