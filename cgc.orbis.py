@@ -93,7 +93,8 @@ def parse_output_to_outcome(cmd_data: CommandData, test: Test, test_outcome: Tes
 
     # If the test failed to run, consider it failed
     elif 'TOTAL TESTS' not in cmd_data.output:
-        test_outcome.error = "Test failed to run."
+        if 'timed out' not in test_outcome.error:
+            test_outcome.error = "Test failed to run."
         test_outcome.passed = False
 
     elif 'TOTAL TESTS: ' in cmd_data.output:
