@@ -12,6 +12,7 @@ from orbis.data.results import CommandData
 from orbis.data.schema import Oracle, Test, Project
 from orbis.ext.database import TestOutcome
 from orbis.handlers.benchmark.c_benchmark import CBenchmark
+from orbis.utils.misc import collect_coverage
 
 
 def get_binaries(source_path: Path, binary: Path):
@@ -291,7 +292,8 @@ class CGC(CBenchmark):
 
     def test(self, context: Context, tests: Oracle, timeout: int, neg_pov: bool = False, prefix: str = None,
              print_ids: bool = False, write_fail: bool = True, only_numbers: bool = False, print_class: bool = False,
-             out_file: str = None, **kwargs) -> List[TestOutcome]:
+             out_file: str = None, cov_suffix: str = None, cov_dir: str = None, cov_out_dir: str = None,
+             rename_suffix: str = None, **kwargs) -> List[TestOutcome]:
 
         bin_names = get_binaries(context.source, binary=context.build / context.project.name / context.project.name)
         test_outcomes = []
@@ -339,6 +341,11 @@ class CGC(CBenchmark):
                 elif not neg_pov:
                     self.failed = True
             '''
+
+        if cov_dir is not None and cov_suffix is not None:
+            collect_coverage(out_dir=Path(cov_out_dir), cov_dir=Path(cov_dir), cov_suffix=cov_suffix, 
+                             rename_suffix=rename_suffix)
+
         return test_outcomes
 
     def install_shared_objects(self, project: Project, replace: bool = False, save_temps: bool = False):
