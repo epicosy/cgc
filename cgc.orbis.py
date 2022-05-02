@@ -74,10 +74,10 @@ def parse_output_to_outcome(cmd_data: CommandData, test: Test, test_outcome: Tes
     ok = match_pattern(cmd_data.output, "ok - (.*)")
     not_ok = match_pattern(cmd_data.output, "not ok - (.*)")
     not_ok_polls = re.findall("not ok (\d{1,4}) - (.*)", cmd_data.output)
-
+    print(cmd_data.output)
     if 'timed out' in cmd_data.output:
         test_outcome.error = "Test timed out"
-        test_outcome.result = False
+        test_outcome.passed = False
 
     # TODO: fix this
     elif not test.is_pov and not_ok_polls:
