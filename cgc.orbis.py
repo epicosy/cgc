@@ -287,6 +287,10 @@ class CGC(CBenchmark):
         cmd_data['build'] = str(cmake_source_path)
         vuln_files = [str(f) for f in context.project.vuln_files]
         cmd_data['build_args'] = {k: v['command'] for k, v in cmake_commands.items() if k in vuln_files}
+        link_file = cmake_source_path / "link.txt"
+
+        if link_file.exists():
+            cmd_data['link_cmd'] = link_file.open(mode='r').read()
 
         return cmd_data
 
