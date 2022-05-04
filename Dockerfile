@@ -12,7 +12,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ##### Install dependencies #####
 ################################
 RUN apt update && apt -y upgrade && apt install -y -q git build-essential python2.7 python-dev python3-pip \
-    python3-dev libc6-dev gcc-multilib g++-multilib gdb software-properties-common cmake curl clang
+    python3-dev libc6-dev gcc-multilib g++-multilib gdb software-properties-common cmake curl wget clang
 
 ################################
 ## Install pip for Python 2.7 ##
