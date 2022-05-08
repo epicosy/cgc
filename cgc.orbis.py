@@ -192,7 +192,7 @@ class CGC(CBenchmark):
              compiler_trail_path: bool = False, replace: bool = False, save_temps: bool = False,
              **kwargs) -> CommandData:
         self.app.log.error(f"SAVETEMPS: {save_temps}")
-        cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
+        cmake_opts = config_cmake(env=self.env, m64=self.m64, replace=replace, save_temps=save_temps)
         cmd_data = CommandData(args=f"cmake {cmake_opts} {context.root} -DCB_PATH:STRING={context.project.name}",
                                cwd=str(context.build), env=self.env)
 
@@ -376,7 +376,7 @@ class CGC(CBenchmark):
                     self.app.log.info("Creating build directory")
                     build_path.mkdir(exist_ok=True)
 
-                cmake_opts = config_cmake(env=self.env, replace=replace, save_temps=save_temps)
+                cmake_opts = config_cmake(env=self.env, m64=self.m64, replace=replace, save_temps=save_temps)
                 cmd_data = CommandData(args=f"cmake {cmake_opts} {build_path} -DCB_PATH:STRING={project.name}",
                                        cwd=str(build_path))
                 super().__call__(cmd_data=cmd_data, msg="Creating build files.", raise_err=True,
