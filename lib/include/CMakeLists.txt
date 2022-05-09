@@ -20,7 +20,7 @@ add_compile_options(
 
 # Linker options
 # Dynamic by default
-option(BUILD_SHARED_LIBS "" ON)
+#option(BUILD_SHARED_LIBS "" ON)
 if(BUILD_STATIC_LIBS AND LINUX)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -Wl,--allow-multiple-definition")
 	set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
@@ -36,7 +36,6 @@ if(DEFINED ENV{M32})
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -m32")
     set(CMAKE_MODULE_LINKER_FLAGS_INIT -m32)
-    add_compile_definitions(X32_COMPILE)
     add_compile_options(-m32)
 endif()
 
@@ -74,6 +73,7 @@ add_subdirectory(libpov)
 
 set_target_properties(cgc PROPERTIES PUBLIC_HEADER "libcgc.h;ansi_x931_aes128.h")
 INSTALL(TARGETS cgc
+        ARCHIVE DESTINATION ${LIB_DESTINATION}
         LIBRARY DESTINATION ${LIB_DESTINATION}
         PUBLIC_HEADER DESTINATION /usr/local/include/cgc
 )
