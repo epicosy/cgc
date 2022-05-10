@@ -297,7 +297,7 @@ class CGC(CBenchmark):
     def test(self, context: Context, tests: Oracle, timeout: int, neg_pov: bool = False, prefix: str = None,
              print_ids: bool = False, write_fail: bool = True, only_numbers: bool = False, print_class: bool = False,
              out_file: str = None, cov_suffix: str = None, cov_dir: str = None, cov_out_dir: str = None,
-             rename_suffix: str = None, **kwargs) -> List[TestOutcome]:
+             rename_suffix: str = None, exit_fail: bool = False, **kwargs) -> List[TestOutcome]:
 
         bin_names = get_binaries(context.source, binary=context.build / context.project.name / context.project.name)
         test_outcomes = []
@@ -336,6 +336,12 @@ class CGC(CBenchmark):
             if out_file is not None:
                 self.test_handler.write_result(outcome, out_file=Path(out_file), write_fail=write_fail,
                                                prefix=Path(prefix) if prefix else None)
+            if exit_fail:
+                if not outcome.passed or outcome.exit_status != 0:
+                    if not outcome.is_pov:
+                        break
+                    elif not neg_pov:
+                        break
 
             # TODO: check this if is necessary
             '''
@@ -437,7 +443,8 @@ class CGC(CBenchmark):
                     vuln.oracle.path.mkdir(parents=True)
     
                 # build povs
-                for pov_name, pov in vuln.oracle.cases.items():
+                for pov_id, pov in vuln.oracle.cases.items():
+                    pov_name = Path(pov.file).stem
                     executed_commands.append(self.build_handler.cmake_build(target=f"{project.name}_{pov_name}",
                                                                             cwd=str(build_dir), env=self.env))
                     executed_commands[-1].returns[pov_name] = pov
