@@ -7,6 +7,7 @@ endif()
 
 set_target_properties(tiny-AES128-C PROPERTIES PUBLIC_HEADER "aes.h")
 INSTALL(TARGETS tiny-AES128-C 
+        ARCHIVE DESTINATION ${LIB_DESTINATION}
         LIBRARY DESTINATION ${LIB_DESTINATION}
         PUBLIC_HEADER DESTINATION /usr/local/include/cgc/aes
 )

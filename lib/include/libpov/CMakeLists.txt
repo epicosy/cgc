@@ -20,12 +20,14 @@ endif()
 
 set_target_properties(pov PROPERTIES PUBLIC_HEADER "libpov.h;cgc_ucp.h;cgc_pcre_internal.h;cgc_config.h")
 INSTALL(TARGETS pov 
+        ARCHIVE DESTINATION ${LIB_DESTINATION}
         LIBRARY DESTINATION ${LIB_DESTINATION}
         PUBLIC_HEADER DESTINATION /usr/local/include/cgc/libpov
 )
 
 set_target_properties(pov PROPERTIES PUBLIC_HEADER "pov/cgc_ctype.h;pov/cgc_limits.h;pov/cgc_pcre.h;pov/cgc_stdlib.h;pov/cgc_string.h;pov/cgc_types.h")
 INSTALL(TARGETS pov
+        ARCHIVE DESTINATION ${LIB_DESTINATION}
         LIBRARY DESTINATION ${LIB_DESTINATION}
         PUBLIC_HEADER DESTINATION /usr/local/include/cgc/libpov/pov
 )
