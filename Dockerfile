@@ -34,3 +34,16 @@ RUN mkdir -p $TOOLS_PATH && cp -r tools/* $TOOLS_PATH && \
     cp "./CMakeLists.txt" $CORPUS_PATH
 
 RUN ./install_cgc_lib.sh
+
+################################
+######## Install orbis #########
+################################
+WORKDIR /opt
+RUN git clone https://github.com/epicosy/orbis
+
+WORKDIR /opt/orbis
+ENV ORBIS_PLUGIN_PATH /cgc
+RUN ./install.sh
+RUN orbis init
+
+#ENTRYPOINT ["orbis", "api", "-p", "8080"]
